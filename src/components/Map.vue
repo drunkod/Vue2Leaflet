@@ -7,6 +7,7 @@
 <script>
 import Vue from 'vue'
 import L from 'leaflet';
+
 import eventsBinder from '../utils/eventsBinder.js';
 import propsBinder from '../utils/propsBinder.js';
 
@@ -87,6 +88,14 @@ const props = {
     type: Boolean,
     default: false
   },
+  fullscreenControl: {
+    type: Boolean,
+    default: false
+  },
+  dragging: {
+    type: Boolean,
+    default: true
+  },
   crs: {
     custom: true,
     default: () => L.CRS.EPSG3857,
@@ -106,6 +115,8 @@ export default {
       maxZoom: this.maxZoom,
       worldCopyJump: this.worldCopyJump,
       crs: this.crs,
+      fullscreenControl: this.fullscreenControl,
+      dragging: this.dragging,
     });
     if (this.center != null) {
       options.center = this.center;
@@ -114,6 +125,7 @@ export default {
       options.zoom = this.zoom;
     }
     this.mapObject = L.map(this.$el, options);
+
     eventsBinder(this, this.mapObject, events);
     propsBinder(this, this.mapObject, props);
     for (var i = 0; i < this.$children.length; i++) {
